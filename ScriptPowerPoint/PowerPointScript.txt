@@ -1,0 +1,45 @@
+Option Explicit
+
+Dim objPPT, objPresentation, objSlide, objTitle, objShapes
+Set objPPT = CreateObject("PowerPoint.Application")
+objPPT.Visible = True
+Set objPresentation = objPPT.Presentations.Add
+'objPresentation.ApplyTemplate("C:\Program Files\Microsoft Office\Templates\1033\Pitchbook.potx")
+
+Set objSlide = objPresentation.Slides.Add(1, 2)
+Set objShapes = objSlide.Shapes
+Set objTitle = objShapes.Item(1)
+objTitle.TextFrame.TextRange.Text = "Первый слайд - ФИО"
+Set objTitle = objShapes.Item(2)
+objTitle.TextFrame.TextRange.Text = "Солопов Даниил Дмитриевич"
+
+Set objSlide = objPresentation.Slides.Add(2, 2)
+Set objShapes = objSlide.Shapes
+Set objTitle = objShapes.Item(1)
+objTitle.TextFrame.TextRange.Text = "Второй слайд - Номер варианта"
+Set objTitle = objShapes.Item(2)
+objTitle.TextFrame.TextRange.Text = "Вариант №24"
+
+Set objSlide = objPresentation.Slides.Add(3, 2)
+Set objShapes = objSlide.Shapes
+Set objTitle = objShapes.Item(1)
+objTitle.TextFrame.TextRange.Text = "Третий слайд - Номер лабораторной работы"
+Set objTitle = objShapes.Item(2)
+objTitle.TextFrame.TextRange.Text = "Лабораторная работа №2"
+
+Dim FSO
+Set FSO = CreateObject("Scripting.FileSystemObject")
+
+objPresentation.SaveAs(FSO.GetParentFolderName(WScript.ScriptFullName) + "\" + "Presentation.ppt")
+
+WScript.Echo "Директория со скриптами и файлами: " + FSO.GetParentFolderName(WScript.ScriptFullName)
+WScript.Echo "Полный путь к скрипту: " + FSO.GetParentFolderName(WScript.ScriptFullName) + "\" + WScript.ScriptName
+
+WScript.Echo "Содержимое скрипта:"
+Dim f, str
+Set f = FSO.OpenTextFile(WScript.ScriptName, 1)
+Do While Not F.AtEndOfStream
+	str = f.ReadLine
+	WScript.Echo str
+Loop
+f.Close
